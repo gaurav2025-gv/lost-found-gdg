@@ -1,0 +1,283 @@
+/* --- GLOBAL RESET & WIDE LAYOUT --- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top left, #1a2a33, #0b141a 70%);
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+.app-container {
+  min-height: 100vh;
+  width: 100vw;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+.app-card {
+  width: 100%;
+  max-width: 1800px; /* High-res screens ke liye wide rakha hai */
+  margin: 0 auto;
+}
+
+/* --- HEADER SECTION --- */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, #fff, #86a8e7);
+  background-clip: text; /* Standard Property added for compatibility */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.google-btn {
+  background: white;
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.google-btn:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* --- ACTION CARDS (WIDE GRID) --- */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.nav-card {
+  padding: 60px 40px;
+  border-radius: 24px;
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+.lost-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  transform: translateY(-10px);
+}
+
+.found-btn:hover {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22c55e;
+  transform: translateY(-10px);
+}
+
+/* --- PENDING SECTIONS (SIDE BY SIDE) --- */
+.section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-clear {
+  background: rgba(255, 68, 68, 0.15);
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  padding: 6px 15px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-clear:hover {
+  background: #ff4444;
+  color: #fff;
+}
+
+/* --- CARDS & LISTS --- */
+.pending-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Wide layout items */
+  gap: 20px;
+}
+
+.pending-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  border-radius: 18px;
+  position: relative;
+  border-left: 5px solid transparent;
+  transition: 0.3s;
+}
+
+.pending-card.lost { border-left-color: #ef4444; }
+.pending-card.found { border-left-color: #22c55e; }
+
+.pending-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.02);
+}
+
+/* --- BUTTONS & ICONS --- */
+.delete-icon-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 68, 68, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.delete-icon-btn:hover {
+  background: #ff4444;
+  transform: rotate(15deg);
+}
+
+/* --- AI RESULTS POPUP/AREA --- */
+.ai-suggestion-area {
+  background: rgba(99, 102, 241, 0.05);
+  border: 2px dashed #6366f1;
+  padding: 40px;
+  border-radius: 30px;
+  margin: 40px 0;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.percentage {
+  background: linear-gradient(135deg, #ffd700, #ffa500);
+  color: #000;
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* --- FORM STYLING --- */
+.form-card input, .form-card textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.btn-check-ai {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #fff;
+  transition: 0.3s;
+}
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 1100px) {
+  .section, .action-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Forms vertical stack karne ke liye */
+.form-page-container {
+  max-width: 600px; /* Form ki width restrict karein */
+  margin: 0 auto;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.page-title {
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+/* Line 237 ke paas isse replace karein */
+.entry-form {
+  display: flex;
+  flex-direction: column; /* Isse inputs stack ho jayenge */
+  gap: 15px;
+  width: 100%;
+  max-width: 600px; /* Form ko zyada wide hone se rokne ke liye */
+  margin: 20px auto; /* Center alignment */
+}
+
+.entry-form input {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  display: block; /* Ensure individual line */
+}
+
+/* Button ko bhi stack mein proper spacing dene ke liye */
+.btn-check-ai {
+  margin-top: 10px;
+  width: 100%;
+}
+h1 {
+  background: linear-gradient(to right, #fff, #86a8e7);
+  background-clip: text; /* Ye line pehle likho */
+  -webkit-background-clip: text; /* Ye uske baad */
+  -webkit-text-fill-color: transparent;
+}
+.entry-form {
+  display: flex;
+  flex-direction: column; /* Isse inputs stack ho jayenge */
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/* Ensure inputs take full width of the column */
+.entry-form input, 
+.entry-form textarea {
+  width: 100%;
+  display: block; 
+}
