@@ -11,11 +11,13 @@ export default function MatchResults({ matches, onConfirm, onNoUser, type }) {
                 <span className="percentage">{m.score}% Match</span>
               </div>
 
-              {m.imageURL && (
-                <div className="match-image">
-                  <img src={m.imageURL} alt={m.title} style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: '8px', marginTop: '10px' }} />
-                </div>
-              )}
+              <div className="match-image">
+                <img
+                  src={m.imageURL || "https://placehold.co/600x400/1a2a33/white?text=No+Image"}
+                  alt={m.title}
+                  style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: '8px', marginTop: '10px' }}
+                />
+              </div>
 
               <h4>{m.title}</h4>
               <p>📍 {m.location}</p>

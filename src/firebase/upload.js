@@ -26,6 +26,7 @@ export async function uploadImage(file, folder) {
         return url;
     } catch (error) {
         console.error("Upload failed:", error);
+        alert("Upload Error: " + error.message); // Fail loud so user sees it
         throw error;
     }
 }

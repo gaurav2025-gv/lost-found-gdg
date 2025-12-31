@@ -23,6 +23,7 @@ export default function FoundPage({ refresh }) {
     }
 
     const lostList = await getOpenLost();
+    console.log("Fetched Lost List:", lostList); // Debugging Log
     const aiMatches = matchItems(data, lostList);
     setActiveData(data);
     setMatches(aiMatches);
@@ -48,11 +49,16 @@ export default function FoundPage({ refresh }) {
     // Safety Guard
     if (!auth.currentUser) return alert("Authentication required.");
 
-    const { imageFile, ...dataWithoutFile } = activeData;
-    await addFoundItem(dataWithoutFile, imageFile);
-    alert("Added to Pending Found Reports.");
-    refresh();
-    navigate("/");
+    try {
+      const { imageFile, ...dataWithoutFile } = activeData;
+      await addFoundItem(dataWithoutFile, imageFile);
+      alert("Added to Pending Found Reports.");
+      refresh();
+      navigate("/");
+    } catch (e) {
+      console.error(e);
+      alert("Failed to submit report: " + e.message);
+    }
   };
 
   return (
@@ -66,6 +72,9 @@ export default function FoundPage({ refresh }) {
 
           {activeData && (
             <div className="ai-suggestion-area">
+              {activeData.aiTags && activeData.aiTags.length > 0 && (
+                <p className="search-status">🤖 Searching matches for: <b>{activeData.aiTags.join(", ")}</b></p>
+              )}
               <MatchResults
                 matches={matches}
                 onConfirm={confirmMatch}

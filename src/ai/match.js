@@ -26,11 +26,27 @@ export function matchItems(source, targets) {
       const titleSim = calculateSimilarity(sourceTitleWords, targetTitleWords);
       finalScore += titleSim * 50;
 
-      // 2. Description Match (Weight: 30%) - Semantic check
+      // 2. Description Match (Weight: 20%) - Reduced slightly
       const sourceDescWords = getWords(source.description);
       const targetDescWords = getWords(t.description);
       const descSim = calculateSimilarity(sourceDescWords, targetDescWords);
-      finalScore += descSim * 30;
+      finalScore += descSim * 20;
+
+      // 3. AI Image Tag Match (Weight: 40%) - NEW! 🤖
+      // Agar text mein kuch nahi likha, par photo mein "Laptop" hai, toh yahan pakdega.
+      const sourceTags = source.aiTags || [];
+      const targetTags = t.aiTags || [];
+
+      // Cross Check: Source Tags vs Target Description/Title/Tags
+      // Matlab: Agar photo mein "Backpack" hai, toh check karo kya samne wale ne "Backpack" likha hai?
+      const allTargetWords = [...targetTitleWords, ...targetDescWords, ...targetTags];
+      const tagSim = calculateSimilarity(sourceTags, allTargetWords);
+
+      // Vice Versa: Check Target Photo Tags vs Source Text
+      const allSourceWords = [...sourceTitleWords, ...sourceDescWords, ...sourceTags];
+      const reverseTagSim = calculateSimilarity(targetTags, allSourceWords);
+
+      finalScore += (tagSim + reverseTagSim) * 30; // 60 max (30 each way)
 
       // 3. Location Match (Weight: 20%) - Strict check
       if (source.location && t.location) {

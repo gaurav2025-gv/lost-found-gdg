@@ -9,8 +9,10 @@ export async function addLostItem(item, imageFile) {
     imageURL = await uploadImage(imageFile, "lost-images");
   }
 
-  const ref = await addDoc(collection(db, "lostItems"), { ...item, imageURL, createdAt: serverTimestamp() });
-  return { id: ref.id, ...item, imageURL };
+  // aiTags save kar rahe hain
+  const aiTags = item.aiTags || [];
+  const ref = await addDoc(collection(db, "lostItems"), { ...item, imageURL, aiTags, createdAt: serverTimestamp() });
+  return { id: ref.id, ...item, imageURL, aiTags };
 }
 
 export async function addFoundItem(item, imageFile) {
@@ -19,8 +21,9 @@ export async function addFoundItem(item, imageFile) {
     imageURL = await uploadImage(imageFile, "found-images");
   }
 
-  const ref = await addDoc(collection(db, "foundItems"), { ...item, imageURL, createdAt: serverTimestamp() });
-  return { id: ref.id, ...item, imageURL };
+  const aiTags = item.aiTags || [];
+  const ref = await addDoc(collection(db, "foundItems"), { ...item, imageURL, aiTags, createdAt: serverTimestamp() });
+  return { id: ref.id, ...item, imageURL, aiTags };
 }
 
 export async function getOpenLostItems() {
