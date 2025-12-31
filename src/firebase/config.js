@@ -12,6 +12,17 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Debugging: Check if config is loaded
+console.log("Firebase Config Check:", {
+  apiKey: firebaseConfig.apiKey ? "Present" : "MISSING",
+  authDomain: firebaseConfig.authDomain ? "Present" : "MISSING",
+  projectId: firebaseConfig.projectId ? "Present" : "MISSING",
+});
+
+if (!firebaseConfig.apiKey) {
+  alert("CRITICAL ERROR: Firebase API Key is missing! Check .env file.");
+}
+
 // Yahan 'export' hona bahut zaroori hai
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);

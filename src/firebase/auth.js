@@ -1,10 +1,29 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { app } from "./config";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { auth } from "./config";
 
-export const auth = getAuth(app);
+export { auth };
 
 const provider = new GoogleAuthProvider();
 
 export const googleLogin = async () => {
-  return await signInWithPopup(auth, provider);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    console.log("Login Success:", result.user);
+    return result;
+  } catch (error) {
+    console.error("Login Failed:", error);
+    alert(`Login Failed: ${error.message}\nCode: ${error.code}`);
+    throw error;
+  }
+};
+
+export const googleLogout = async () => {
+  try {
+    await signOut(auth);
+    console.log("Logged out successfully");
+  } catch (error) {
+    console.error("Logout Failed:", error);
+    alert(`Logout Failed: ${error.message}`);
+    throw error;
+  }
 };

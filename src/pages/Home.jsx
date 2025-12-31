@@ -1,11 +1,25 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { googleLogin } from "../firebase/auth";
-import { auth } from "../firebase/config"; // Auth check ke liye import kiya
+import { googleLogin, googleLogout, auth } from "../firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import PendingReports from "../components/PendingReports";
 
 export default function Home({ pendingLost, pendingFound, onDelete, onClear }) {
-  // Current user ki state check karein
-  const user = auth.currentUser;
+  const [user, setUser] = useState(null);
+
+  // Auth changes ko listen karne ke liye useEffect
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
+
+  const handleLogout = async () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      await googleLogout();
+    }
+  };
 
   return (
     <div className="app-card">
@@ -13,8 +27,8 @@ export default function Home({ pendingLost, pendingFound, onDelete, onClear }) {
         <h1>Neural Knights</h1>
         {user ? (
           <div className="user-profile">
-            <span className="user-name">Welcome, {user.displayName.split(' ')[0]}!</span>
-            {/* Logout button ya profile photo yahan add kar sakte ho */}
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+            <span className="user-name">Welcome, {user.displayName?.split(' ')[0]}!</span>
           </div>
         ) : (
           <button className="google-btn" onClick={googleLogin}>Login with Google</button>
@@ -38,7 +52,7 @@ export default function Home({ pendingLost, pendingFound, onDelete, onClear }) {
           <div className="login-warning-card">
             <h2>🔒 Restricted Access</h2>
             <p>Please login with Google to report items or view AI suggestions.</p>
-            <button className="primary-btn" onClick={googleLogin} style={{marginTop: '15px'}}>
+            <button className="primary-btn" onClick={googleLogin} style={{ marginTop: '15px' }}>
               Login Now
             </button>
           </div>
@@ -56,10 +70,10 @@ export default function Home({ pendingLost, pendingFound, onDelete, onClear }) {
               </button>
             )}
           </div>
-          <PendingReports 
-            items={pendingLost} 
-            tag="LOST" 
-            onDelete={(id) => onDelete(id, "LOST")} 
+          <PendingReports
+            items={pendingLost}
+            tag="LOST"
+            onDelete={(id) => onDelete(id, "LOST")}
           />
         </div>
 
@@ -73,10 +87,10 @@ export default function Home({ pendingLost, pendingFound, onDelete, onClear }) {
               </button>
             )}
           </div>
-          <PendingReports 
-            items={pendingFound} 
-            tag="FOUND" 
-            onDelete={(id) => onDelete(id, "FOUND")} 
+          <PendingReports
+            items={pendingFound}
+            tag="FOUND"
+            onDelete={(id) => onDelete(id, "FOUND")}
           />
         </div>
       </div>
