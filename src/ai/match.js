@@ -43,7 +43,7 @@ export function matchItems(source, targets) {
       const tagSim = calculateSimilarity(sourceTags, allTargetWords);
 
       // Vice Versa: Check Target Photo Tags vs Source Text
-      const allSourceWords = [...sourceTitleWords, ...sourceDescWords, ...sourceTags];
+      const allSourceWords = [...sourceTitleWords, ...sourceDescWords, ...sourceTags];//user jldi m sirf photo upload karta hai
       const reverseTagSim = calculateSimilarity(targetTags, allSourceWords);
 
       finalScore += (tagSim + reverseTagSim) * 30; // 60 max (30 each way)
